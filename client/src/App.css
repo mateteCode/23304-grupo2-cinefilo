@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.movie-card {
+  border: 1px solid white;
+  margin: 10px auto 0;
+  padding: 20px;
+}
