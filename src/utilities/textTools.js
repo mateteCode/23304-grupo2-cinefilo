@@ -14,3 +14,11 @@ export function isEndOfScroll() {
     document.documentElement.scrollHeight
   );
 }
+
+export function getYear(date) {
+  return date.slice(0, 4);
+}
+
+export function getRatingFixed(rating) {
+  return rating.toFixed(1);
+}

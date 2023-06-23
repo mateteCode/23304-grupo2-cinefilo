@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
+
 body {
   background: rgb(222, 66, 66);
   background: linear-gradient(
@@ -27,7 +28,7 @@ body {
 }
 
 /* Páginas con Formularios */
-.register {
+.form {
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -35,7 +36,7 @@ body {
   justify-content: center;
 }
 
-.register__container {
+.form__container {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -43,13 +44,13 @@ body {
   padding: 30px;
 }
 
-.register__textBox {
+.form__textBox {
   padding: 10px;
   font-size: 18px;
   margin-bottom: 10px;
 }
 
-.register__btn {
+.form__btn {
   padding: 10px;
   font-size: 18px;
   margin-bottom: 10px;
@@ -58,116 +59,16 @@ body {
   background-color: black;
 }
 
-.register__google {
+.form__google {
   background-color: #4285f4;
 }
 
-.register div {
+.form div {
   margin-top: 7px;
 }
 
-.login {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login__container {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  background-color: #dcdcdc;
-  padding: 30px;
-}
-
-.login__textBox {
-  padding: 10px;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.login__btn {
-  padding: 10px;
-  font-size: 18px;
-  margin-bottom: 10px;
-  border: none;
-  color: white;
-  background-color: black;
-}
-
-.login__google {
-  background-color: #4285f4;
-}
-
-.login div {
-  margin-top: 7px;
-}
-
-.reset {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.reset__container {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  background-color: #dcdcdc;
-  padding: 30px;
-}
-
-.reset__textBox {
-  padding: 10px;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.reset__btn {
-  padding: 10px;
-  font-size: 18px;
-  margin-bottom: 10px;
-  border: none;
-  color: white;
-  background-color: black;
-}
-
-.reset div {
-  margin-top: 7px;
-}
-
-/* Pagina Perfil */
-.dashboard {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dashboard__container {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  background-color: #dcdcdc;
-  padding: 30px;
-}
-
-.dashboard__btn {
-  padding: 10px;
-  font-size: 18px;
-  margin-top: 10px;
-  border: none;
-  color: white;
-  background-color: black;
-}
-
-.dashboard div {
-  margin-top: 7px;
+.form__item {
+  margin-bottom: 5px;
 }
 
 /* Componente MovieCard */
@@ -189,7 +90,7 @@ body {
 
 .movie {
   margin: 5px;
-  padding: 20px 5px 10px;
+  padding: 20px 5px 2px 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -208,8 +109,7 @@ body {
 .movie:hover .movie__title,
 .movie:hover .movie__description,
 .movie:hover .movie__infos div,
-.movie:hover .movie__rating,
-.movie:hover .movie__imdb-button {
+.movie:hover .movie__rating {
   opacity: 1;
   transform: scale(1);
 }
@@ -226,6 +126,8 @@ body {
   transform: scale(0);
   opacity: 0;
   transition: transform 0.24s ease-in 0.05s, opacity 0.3s linear;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .movie__infos {
@@ -236,43 +138,17 @@ body {
 }
 
 .info__head {
-  display: block;
+  display: inline-block;
   margin-bottom: 4px;
+  margin-right: 4px;
   font-weight: bold;
   font-size: 1.1em;
 }
 
-.movie__duration {
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.24s ease-in 0.15s, opacity 0.3s linear;
-}
-
-.movie__director {
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.24s ease-in 0.2s, opacity 0.3s linear;
-}
-
-.movie__year {
+.movie__estreno {
   transform: scale(0);
   opacity: 0;
   transition: transform 0.24s ease-in 0.25s, opacity 0.3s linear;
-}
-
-.movie__cast {
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.24s ease-in 0.3s, opacity 0.3s linear;
-  font-size: 0.9em;
-}
-
-.movie__imdb {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  justify-self: flex-end;
-  padding: 0 10px;
 }
 
 .movie__rating {
@@ -281,32 +157,19 @@ body {
   transition: transform 0.24s ease-in 0.35s, opacity 0.3s linear;
 }
 
-.fa-star {
-  width: 9px;
-  font-size: 1.2em;
-  display: inline-block;
-  overflow: hidden;
-}
-.fa-star.checked {
-  color: yellow;
+.movie__buttons {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 3px 0;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  border-radius: 10px;
 }
 
-.movie__imdb-button {
-  width: 60px;
-  height: 30px;
-  border-radius: 5px;
-  background-color: #ebba33;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #000;
-  font-family: "Oswald", sans-serif;
-  font-size: 1.1em;
-  font-weight: bold;
+.movie__btn:hover {
+  color: red;
   cursor: pointer;
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.24s ease-in 0.4s, opacity 0.3s linear;
 }
 
 /* Componente Navbar */

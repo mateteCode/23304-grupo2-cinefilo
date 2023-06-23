@@ -15,16 +15,16 @@ export default function Reset() {
   }, [user, loading]);
 
   return (
-    <div className="reset">
-      <div className="reset__container">
+    <div className="form">
+      <div className="form__container">
         <input
           type="text"
-          className="reset__textBox"
+          className="form__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Correo electrónico"
         />
-        <button className="reset__btn" onClick={() => sendPasswordReset(email)}>
+        <button className="form__btn" onClick={() => sendPasswordReset(email)}>
           Restablecer la contraseña
         </button>
 

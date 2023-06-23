@@ -22,29 +22,29 @@ export default function Login() {
   }, [user, loading]);
 
   return (
-    <div className="login">
-      <div className="login__container">
+    <div className="form">
+      <div className="form__container">
         <input
           type="text"
-          className="login__textBox"
+          className="form__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Correo electrónico"
         />
         <input
           type="password"
-          className="login__textBox"
+          className="form__textBox"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Contraseñá"
         />
         <button
-          className="login__btn"
+          className="form__btn"
           onClick={() => logInWithEmailAndPassword(email, password)}
         >
           Acceder
         </button>
-        <button className="login__btn login__google" onClick={signInWithGoogle}>
+        <button className="form__btn form__google" onClick={signInWithGoogle}>
           Acceder con Google
         </button>
         <div>

@@ -25,36 +25,33 @@ export default function Register() {
   }, [user, loading]);
 
   return (
-    <div className="register">
-      <div className="register__container">
+    <div className="form">
+      <div className="form__container">
         <input
           type="text"
-          className="register__textBox"
+          className="form__textBox"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nombre"
         />
         <input
           type="text"
-          className="register__textBox"
+          className="form__textBox"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Correo electrónico"
         />
         <input
           type="password"
-          className="register__textBox"
+          className="form__textBox"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Contraseña"
         />
-        <button className="register__btn" onClick={register}>
+        <button className="form__btn" onClick={register}>
           Registrarse
         </button>
-        <button
-          className="register__btn register__google"
-          onClick={signInWithGoogle}
-        >
+        <button className="form__btn form__google" onClick={signInWithGoogle}>
           Registrarse con Google
         </button>
 

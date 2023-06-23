@@ -6,10 +6,22 @@
 const APIKEY = "8f578cdecb8c15112d8837ddfb9c6838";
 
 import { useEffect, useState } from "react";
-import { concatenateWords, isEndOfScroll } from "../../utilities/textTools";
+import {
+  concatenateWords,
+  isEndOfScroll,
+  getPosterURL,
+  getYear,
+  getRatingFixed,
+} from "../../utilities/textTools";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
-export default function SearchBar({ setData, dataLoading, setDataLoading }) {
+export default function SearchBar({
+  setData,
+  dataLoading,
+  setDataLoading,
+  favorites,
+  blocked,
+}) {
   const [text, setText] = useState("");
   const [page, setPage] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
@@ -37,7 +49,30 @@ export default function SearchBar({ setData, dataLoading, setDataLoading }) {
       .then((resp) => resp.json())
       .then((json) => {
         console.log(json);
-        setData((prev) => [...prev, ...json.results]);
+        const newData = json.results.map((item) => {
+          const {
+            id,
+            title,
+            overview,
+            poster_path,
+            release_date,
+            vote_average,
+          } = item;
+          const newItem = {
+            id,
+            title,
+            overview,
+            poster_path: getPosterURL(poster_path),
+            release_date: getYear(release_date),
+            vote_average: getRatingFixed(vote_average),
+            favorite: favorites.find((fav) => fav.id === item.id) !== undefined,
+            blocked:
+              blocked.find((block) => block.id === item.id) !== undefined,
+          };
+          console.log(newItem);
+          return newItem;
+        });
+        setData((prev) => [...prev, ...newData]);
         setTotalPages(json.total_pages);
         setTotalResults(json.total_results);
       });

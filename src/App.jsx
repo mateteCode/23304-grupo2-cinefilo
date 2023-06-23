@@ -12,9 +12,24 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./API/firebase";
 import { RotateSpinner } from "react-spinners-kit";
 import "./index.css";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getFavorites, getBlocked } from "./API/firebase";
 
 export default function App() {
   const [user, loading, error] = useAuthState(auth);
+  const [favorites, setFavorites] = useState([]);
+  const [blocked, setBlocked] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      console.log("Usuario autentificado");
+      getFavorites(user, setFavorites);
+      getBlocked(user, setBlocked);
+    } else {
+      console.log("No esta logueado");
+    }
+  }, [user]);
   return (
     <div className="App">
       {loading ? (
@@ -26,7 +41,18 @@ export default function App() {
           <Navbar isAuthenticated={user !== null} />
           <div className="content">
             <Routes>
-              <Route path="/" element={<Home />}></Route>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    user={user}
+                    favorites={favorites}
+                    setFavorites={setFavorites}
+                    blocked={blocked}
+                    setBlocked={setBlocked}
+                  />
+                }
+              ></Route>
               <Route
                 element={
                   <ProtectedRoute
@@ -35,8 +61,30 @@ export default function App() {
                   />
                 }
               >
-                <Route path="/favorites" element={<Favorites />}></Route>
-                <Route path="/blocked" element={<Blocked />}></Route>
+                <Route
+                  path="/favorites"
+                  element={
+                    <Favorites
+                      favorites={favorites}
+                      user={user}
+                      setFavorites={setFavorites}
+                      setBlocked={setBlocked}
+                      blocked={blocked}
+                    />
+                  }
+                ></Route>
+                <Route
+                  path="/blocked"
+                  element={
+                    <Blocked
+                      favorites={favorites}
+                      user={user}
+                      setFavorites={setFavorites}
+                      setBlocked={setBlocked}
+                      blocked={blocked}
+                    />
+                  }
+                ></Route>
                 <Route path="/user" element={<User />}></Route>
               </Route>
               <Route element={<ProtectedRoute isAllowed={user === null} />}>

@@ -30,12 +30,11 @@ export default function User() {
   }, [user, loading]);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__container">
-        Logged in as
-        <div>{name}</div>
-        <div>{user?.email}</div>
-        <button className="dashboard__btn" onClick={logout}>
+    <div className="form">
+      <div className="form__container">
+        <div class="form__item">{name}</div>
+        <div class="form__item">{user?.email}</div>
+        <button className="form__btn" onClick={logout}>
           Logout
         </button>
       </div>

@@ -1,7 +1,6 @@
 import { MovieInfo } from "./MovieInfo";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FiMessageSquare } from "react-icons/fi";
-import { ImBlocked } from "react-icons/im";
 import {
   addFavorites,
   removeFavorites,
@@ -18,9 +17,11 @@ export const Movie = ({
   setBlocked,
   blocked,
 }) => {
+  infos.favorite = favorites.find((fav) => fav.id === infos.id) !== undefined;
+  infos.blocked =
+    blocked.find((blocked) => blocked.id === infos.id) !== undefined;
   const { id, title, overview, vote_average, release_date, poster_path } =
     infos;
-  if (infos.blocked) return;
   return (
     <div className="movie" style={{ backgroundImage: `url(${poster_path})` }}>
       <h2 className="movie__title">{title}</h2>

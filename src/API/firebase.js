@@ -16,6 +16,13 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAxFzrCtrPqYAjIW8xzaaNDq9Cum5IPlr0",
@@ -42,6 +49,8 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
+        favorites: [],
+        blocked: [],
       });
     }
   } catch (err) {
@@ -92,6 +101,98 @@ const logout = () => {
   signOut(auth);
 };
 
+const addFavorites = async (user, movie) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "users", docs.docs[0].id);
+    await updateDoc(documentRef, {
+      favorites: arrayUnion(movie),
+    });
+    console.log("pelicula agregada");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const addBlocked = async (user, movie) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "users", docs.docs[0].id);
+    await updateDoc(documentRef, {
+      blocked: arrayUnion(movie),
+    });
+    console.log("pelicula bloqueada");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getFavorites = async (user, setFavorites) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "users", docs.docs[0].id);
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const result = documentSnapshot.data().favorites;
+      setFavorites([...result]);
+    } else {
+      // The document doesn't exist
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getBlocked = async (user, setBlocked) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "users", docs.docs[0].id);
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const result = documentSnapshot.data().blocked;
+      setBlocked([...result]);
+    } else {
+      // The document doesn't exist
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const removeFavorites = async (user, movie) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "users", docs.docs[0].id);
+    await updateDoc(documentRef, {
+      favorites: arrayRemove(movie),
+    });
+    console.log("pelicula eliminada de favoritas");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const removeBlocked = async (user, movie) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "users", docs.docs[0].id);
+    await updateDoc(documentRef, {
+      blocked: arrayRemove(movie),
+    });
+    console.log("pelicula eliminada de bloqueadas");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   auth,
   db,
@@ -100,4 +201,10 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  addFavorites,
+  getFavorites,
+  removeFavorites,
+  addBlocked,
+  getBlocked,
+  removeBlocked,
 };
