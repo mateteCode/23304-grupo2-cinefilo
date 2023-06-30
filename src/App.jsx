@@ -15,11 +15,15 @@ import "./index.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getFavorites, getBlocked } from "./API/firebase";
+import CommentsPopup from "./components/CommentsPopup/CommentsPopup";
+import { useAppContext } from "./AppProvider";
 
 export default function App() {
   const [user, loading, error] = useAuthState(auth);
   const [favorites, setFavorites] = useState([]);
   const [blocked, setBlocked] = useState([]);
+
+  const { showComments } = useAppContext();
 
   useEffect(() => {
     if (user) {
@@ -94,6 +98,7 @@ export default function App() {
               </Route>
             </Routes>
           </div>
+          {showComments && <CommentsPopup user={user} />}
         </BrowserRouter>
       )}
     </div>

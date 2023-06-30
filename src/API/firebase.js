@@ -193,6 +193,47 @@ const removeBlocked = async (user, movie) => {
   }
 };
 
+const addComment = async (movieId, comment) => {
+  try {
+    const q = query(collection(db, "comments"), where("id", "==", movieId));
+    const docs = await getDocs(q);
+    if (docs.docs.length === 0) {
+      console.log("No existe comentario de esa peli");
+      await addDoc(collection(db, "comments"), {
+        id: movieId,
+        comments: [comment],
+      });
+    } else {
+      const documentRef = doc(db, "comments", docs.docs[0].id);
+      await updateDoc(documentRef, {
+        comments: arrayUnion(comment),
+      });
+    }
+    console.log("Comentario agregado");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getComments = async (movieId) => {
+  try {
+    const q = query(collection(db, "comments"), where("id", "==", movieId));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, "comments", docs.docs[0].id);
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const result = documentSnapshot.data().comments;
+      console.log(result);
+      return result;
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
+};
+
 export {
   auth,
   db,
@@ -207,4 +248,6 @@ export {
   addBlocked,
   getBlocked,
   removeBlocked,
+  addComment,
+  getComments,
 };

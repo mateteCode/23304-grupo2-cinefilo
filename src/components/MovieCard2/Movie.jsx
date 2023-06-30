@@ -9,6 +9,8 @@ import {
 } from "../../API/firebase";
 import { BiHide, BiSolidHide } from "react-icons/bi";
 
+import { useAppContext } from "../../AppProvider";
+
 export const Movie = ({
   infos,
   user,
@@ -17,6 +19,7 @@ export const Movie = ({
   setBlocked,
   blocked,
 }) => {
+  const { dispatch } = useAppContext();
   infos.favorite = favorites.find((fav) => fav.id === infos.id) !== undefined;
   infos.blocked =
     blocked.find((blocked) => blocked.id === infos.id) !== undefined;
@@ -58,7 +61,10 @@ export const Movie = ({
         >
           {infos.favorite ? <AiFillHeart /> : <AiOutlineHeart />}
         </div>
-        <div className="movie__btn">
+        <div
+          className="movie__btn"
+          onClick={() => dispatch({ type: "SHOW_COMMENTS", value: infos })}
+        >
           <FiMessageSquare />
         </div>
         <div

@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Sono:wght@400;800&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Sono", sans-serif;
 }
 
 body {
@@ -25,6 +27,7 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  color: red;
 }
 
 /* Páginas con Formularios */
@@ -379,4 +382,137 @@ body {
 .search-results {
   margin-top: 10px;
   color: white;
+}
+
+/* Popup de comentarios de Peliculas*/
+.popup {
+  position: fixed;
+  background: #000000aa;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.popup__box {
+  position: relative;
+  width: 70%;
+  width: 700px;
+  margin: 0 auto;
+  height: auto;
+  max-height: 85vh;
+  margin-top: calc(100vh - 85vh - 20px);
+  background: #000;
+  border-radius: 4px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+
+.popup__closebtn {
+  line-height: 20px;
+  border: 1px solid #999;
+  position: absolute;
+  top: 20px;
+  right: 5px;
+  transform: translateY(-50%);
+  height: 25px;
+  width: 25px;
+  color: #fff;
+  background: red;
+  font-size: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s linear;
+}
+
+.popup__movie {
+  width: 100%;
+  min-height: 200px;
+  background-blend-mode: color;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 15px;
+  gap: 15px;
+}
+
+.popup__movie__infos {
+  display: flex;
+  justify-content: space-around;
+  font-weight: 800;
+}
+
+.popup__messages__form {
+  margin: 20px;
+}
+
+.popup__messages__form__textarea {
+  width: 100%;
+  height: 80px;
+  resize: none;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.popup__messages__form__button {
+  background-color: red;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.popup__messages__list {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.popup__mesagges_list_item {
+  /*background-color: red;*/
+  color: white;
+  margin-bottom: 10px;
+  border-bottom: 1px solid red;
+  padding-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+  gap: 10px;
+}
+.popup__messages__list__comment {
+  align-self: flex-start;
+}
+
+.popup__messages__list__details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #d3d3d3;
+  align-items: center;
+}
+
+.popup__messages__list__user {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup__messages__list__user__photo {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
