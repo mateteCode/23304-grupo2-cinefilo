@@ -1,24 +1,11 @@
 import MovieList from "../components/MovieCard2/MovieList";
+import { useAppContext } from "../AppProvider";
 
-export default function Blocked({
-  favorites,
-  user,
-  setFavorites,
-  setBlocked,
-  blocked,
-}) {
+export default function Blocked({ user }) {
+  const { dispatch, blocked } = useAppContext();
   return (
     <div className="blocked">
-      {blocked && (
-        <MovieList
-          data={blocked}
-          user={user}
-          setFavorites={setFavorites}
-          favorites={favorites}
-          setBlocked={setBlocked}
-          blocked={blocked}
-        />
-      )}
+      {blocked && <MovieList data={blocked} user={user} />}
     </div>
   );
 }

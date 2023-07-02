@@ -12,6 +12,7 @@ const initialState = {
   userPhoto: null,
   userName: null,
   blocked: [],
+  favorites: [],
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -22,6 +23,7 @@ const reducer = (state, action) => {
         showComments: true,
       };
     }
+
     case "HIDE_COMMENTS": {
       return {
         ...state,
@@ -30,44 +32,44 @@ const reducer = (state, action) => {
         comments: [],
       };
     }
+
     case "SAVE_COMMENT":
       addComment(state.currentMovie.id, action.value);
       return {
         ...state,
         comments: [action.value, ...state.comments],
       };
+
     case "GET_COMMENTS_COMPLETED":
       return {
         ...state,
         comments: action.value.reverse(),
       };
+
     case "UPDATE_USER_PHOTO":
       return {
         ...state,
         userPhoto: action.value,
       };
+
     case "UPDATE_USER_NAME":
       return {
         ...state,
         userName: action.value,
       };
-    case "LOAD_BLOCKED":
+
+    case "UPDATE_BLOCKED":
       return {
         ...state,
         blocked: action.value,
       };
-    /* TODO: Agregar peli bloqueada al estado */
-    case "ADD_BLOCKED":
+
+    case "UPDATE_FAVORITES":
       return {
         ...state,
-        blocked: action.value,
+        favorites: action.value,
       };
-    /* TODO: Quitar peli bloqueada al estado */
-    case "DELETE_BLOCKED":
-      return {
-        ...state,
-        blocked: action.value,
-      };
+
     default:
       return state;
   }
@@ -84,6 +86,7 @@ const AppProvider = ({ children }) => {
         userPhoto: state.userPhoto,
         userName: state.userName,
         blocked: state.blocked,
+        favorites: state.favorites,
         state,
         dispatch,
       }}

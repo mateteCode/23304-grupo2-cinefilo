@@ -301,6 +301,10 @@ const getBlocked2 = async (userId) => {
   return await getField("users", "blocked", "uid", userId);
 };
 
+const getFavorites2 = async (userId) => {
+  return await getField("users", "favorites", "uid", userId);
+};
+
 export {
   db,
   auth,
@@ -321,4 +325,5 @@ export {
   getUserPhoto,
   getUserName,
   getBlocked2,
+  getFavorites2
 };

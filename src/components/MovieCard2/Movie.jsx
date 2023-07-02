@@ -1,30 +1,72 @@
 import { MovieInfo } from "./MovieInfo";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FiMessageSquare } from "react-icons/fi";
+import { BiHide, BiSolidHide } from "react-icons/bi";
 import {
   addFavorites,
   removeFavorites,
   addBlocked,
   removeBlocked,
 } from "../../API/firebase";
-import { BiHide, BiSolidHide } from "react-icons/bi";
 
 import { useAppContext } from "../../AppProvider";
 
-export const Movie = ({
-  infos,
-  user,
-  setFavorites,
-  favorites,
-  setBlocked,
-  blocked,
-}) => {
-  const { dispatch } = useAppContext();
-  infos.favorite = favorites.find((fav) => fav.id === infos.id) !== undefined;
-  infos.blocked =
-    blocked.find((blocked) => blocked.id === infos.id) !== undefined;
+export const Movie = ({ movie, user }) => {
+  const { dispatch, blocked, favorites } = useAppContext();
+  movie.favorite = favorites.find((fav) => fav.id === movie.id) !== undefined;
+  movie.blocked =
+    blocked.find((blocked) => blocked.id === movie.id) !== undefined;
   const { id, title, overview, vote_average, release_date, poster_path } =
-    infos;
+    movie;
+
+  const handleFavoriteBtn = () => {
+    const newFavorite = {
+      id,
+      title,
+      overview,
+      vote_average,
+      release_date,
+      poster_path,
+    };
+    if (movie.favorite) {
+      removeFavorites(user, newFavorite);
+      const newFavorites = favorites.filter((fav) => {
+        return movie.id !== fav.id;
+      });
+      dispatch({ type: "UPDATE_FAVORITES", value: newFavorites });
+    } else {
+      addFavorites(user, newFavorite);
+      dispatch({
+        type: "UPDATE_FAVORITES",
+        value: [...favorites, newFavorite],
+      });
+    }
+  };
+
+  const handleBlockedBtn = () => {
+    const newBlock = {
+      id,
+      title,
+      overview,
+      vote_average,
+      release_date,
+      poster_path,
+    };
+    if (movie.blocked) {
+      removeBlocked(user, newBlock);
+      const newBlocked = blocked.filter((block) => {
+        return movie.id !== block.id;
+      });
+      dispatch({ type: "UPDATE_BLOCKED", value: newBlocked });
+    } else {
+      addBlocked(user, newBlock);
+      dispatch({
+        type: "UPDATE_BLOCKED",
+        value: [...blocked, newBlock],
+      });
+    }
+  };
+
   return (
     <div className="movie" style={{ backgroundImage: `url(${poster_path})` }}>
       <h2 className="movie__title">{title}</h2>
@@ -34,65 +76,17 @@ export const Movie = ({
         <MovieInfo name="estreno" value={release_date} />
       </div>
       <div className="movie__buttons">
-        <div
-          className="movie__btn"
-          onClick={() => {
-            const newFavorite = {
-              id,
-              title,
-              overview,
-              vote_average,
-              release_date,
-              poster_path,
-            };
-            if (infos.favorite) {
-              removeFavorites(user, newFavorite);
-              console.log(favorites.length);
-              const newFavorites = favorites.filter((fav) => {
-                return infos.id !== fav.id;
-              });
-              console.log(newFavorites.length);
-              setFavorites([...newFavorites]);
-            } else {
-              addFavorites(user, newFavorite);
-              setFavorites((prev) => [...prev, newFavorite]);
-            }
-          }}
-        >
-          {infos.favorite ? <AiFillHeart /> : <AiOutlineHeart />}
+        <div className="movie__btn" onClick={handleFavoriteBtn}>
+          {movie.favorite ? <AiFillHeart /> : <AiOutlineHeart />}
         </div>
         <div
           className="movie__btn"
-          onClick={() => dispatch({ type: "SHOW_COMMENTS", value: infos })}
+          onClick={() => dispatch({ type: "SHOW_COMMENTS", value: movie })}
         >
           <FiMessageSquare />
         </div>
-        <div
-          className="movie__btn"
-          onClick={() => {
-            const newBlock = {
-              id,
-              title,
-              overview,
-              vote_average,
-              release_date,
-              poster_path,
-            };
-            if (infos.blocked) {
-              removeBlocked(user, newBlock);
-              console.log(blocked.length);
-              const newBlocked = blocked.filter((block) => {
-                return infos.id !== block.id;
-              });
-              console.log(newBlocked.length);
-              setBlocked([...newBlocked]);
-            } else {
-              addBlocked(user, newBlock);
-              setBlocked((prev) => [...prev, newBlock]);
-            }
-          }}
-        >
-          {infos.blocked ? <BiSolidHide /> : <BiHide />}
+        <div className="movie__btn" onClick={handleBlockedBtn}>
+          {movie.blocked ? <BiSolidHide /> : <BiHide />}
         </div>
       </div>
     </div>

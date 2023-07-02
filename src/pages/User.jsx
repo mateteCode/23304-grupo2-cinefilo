@@ -6,7 +6,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import { BiSolidHide } from "react-icons/bi";
 
 export default function User({ user }) {
-  const { dispatch, userPhoto, userName, blocked } = useAppContext();
+  const { dispatch, userPhoto, userName, blocked, favorites } = useAppContext();
 
   const handleUploadBtn = async (e) => {
     try {
@@ -42,7 +42,7 @@ export default function User({ user }) {
                 <div className="carduser__icon">
                   <AiFillHeart />
                 </div>
-                <p className="carduser__value">10</p>
+                <p className="carduser__value">{favorites.length}</p>
               </div>
               <div className="carduser__stat">
                 <div className="carduser__icon">

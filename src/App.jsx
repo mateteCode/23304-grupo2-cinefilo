@@ -17,6 +17,7 @@ import {
   getUserPhoto,
   getUserName,
   getBlocked2,
+  getFavorites2,
 } from "./API/firebase";
 import { RotateSpinner } from "react-spinners-kit";
 import { useState, useEffect } from "react";
@@ -48,8 +49,15 @@ export default function App() {
       getBlocked2(user?.uid).then((bl) => {
         console.log(`blocked2 ${bl}`);
         dispatch({
-          type: "LOAD_BLOCKED",
+          type: "UPDATE_BLOCKED",
           value: bl ? bl : [],
+        });
+      });
+      getFavorites2(user?.uid).then((fa) => {
+        console.log(`favorites2 ${fa}`);
+        dispatch({
+          type: "UPDATE_FAVORITES",
+          value: fa ? fa : [],
         });
       });
     }
@@ -102,11 +110,7 @@ export default function App() {
                   path="/blocked"
                   element={
                     <Blocked
-                      favorites={favorites}
                       user={user}
-                      setFavorites={setFavorites}
-                      setBlocked={setBlocked}
-                      blocked={blocked}
                     />
                   }
                 ></Route>
