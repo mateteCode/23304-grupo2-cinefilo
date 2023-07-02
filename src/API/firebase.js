@@ -24,6 +24,8 @@ import {
   getDoc,
 } from "firebase/firestore";
 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAxFzrCtrPqYAjIW8xzaaNDq9Cum5IPlr0",
   authDomain: "fir-auth-article-5a22c.firebaseapp.com",
@@ -36,7 +38,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
+/* Funciones privadas */
+const getField = async (col, field, fieldId, id) => {
+  try {
+    const q = query(collection(db, col), where(fieldId, "==", id));
+    const docs = await getDocs(q);
+    const documentRef = doc(db, col, docs.docs[0].id);
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const result = documentSnapshot.data()[field];
+      return result;
+    } else {
+      console.log("No existe el documento");
+    }
+  } catch (err) {
+    console.log("No se puede acceder al campo");
+  }
+  return null;
+};
+
+/* Funciones públicas */
 const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, new GoogleAuthProvider());
@@ -49,6 +72,7 @@ const signInWithGoogle = async () => {
         name: user.displayName,
         authProvider: "google",
         email: user.email,
+        photo: user.photoURL,
         favorites: [],
         blocked: [],
       });
@@ -79,6 +103,9 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       name,
       authProvider: "local",
       email,
+      photo: null,
+      favorites: [],
+      blocked: [],
     });
   } catch (err) {
     console.error(err);
@@ -234,9 +261,45 @@ const getComments = async (movieId) => {
   return [];
 };
 
+/* const getComments = async (movieId) => {
+  let result = getField("comments", "comments", "id", movieId);
+  result = result ? result : [];
+  console.log(result);
+  return result;
+}; */
+
+const setUserPhoto = async (userId, urlFile) => {
+  try {
+    const q = query(collection(db, "users"), where("uid", "==", userId));
+    const docs = await getDocs(q);
+    const docRef = doc(db, "users", docs.docs[0].id);
+    await updateDoc(docRef, {
+      photo: urlFile,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const uploadFile = async (file, userId) => {
+  const storageRef = ref(storage, `photo-user${userId}`);
+  await uploadBytes(storageRef, file);
+  const urlFile = await getDownloadURL(storageRef);
+  await setUserPhoto(userId, urlFile);
+  return urlFile;
+};
+
+const getUserPhoto = async (userId) => {
+  return getField("users", "photo", "uid", userId);
+};
+
+const getUserName = async (userId) => {
+  return getField("users", "name", "uid", userId);
+};
+
 export {
-  auth,
   db,
+  auth,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
@@ -250,4 +313,7 @@ export {
   removeBlocked,
   addComment,
   getComments,
+  uploadFile,
+  getUserPhoto,
+  getUserName,
 };

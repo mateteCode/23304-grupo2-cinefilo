@@ -1,42 +1,89 @@
 import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
-import { auth, db, logout } from "../API/firebase";
-import { query, collection, getDocs, where } from "firebase/firestore";
+//import { useNavigate } from "react-router-dom";
+import { logout, uploadFile, getUserPhoto, getUserName } from "../API/firebase";
+import userPhotoDefault from "../assets/user_photo.png";
 
-export default function User() {
-  const [user, loading, error] = useAuthState(auth);
+import { FaSearch } from "react-icons/fa";
+import { AiFillHeart } from "react-icons/ai";
+import { FiMessageSquare } from "react-icons/fi";
+import { BiSolidHide } from "react-icons/bi";
+
+export default function User({ user }) {
+  const [photo, setPhoto] = useState(null);
   const [name, setName] = useState("");
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  const fetchUserName = async () => {
+  const handleUploadBtn = async (e) => {
     try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-
-      setName(data.name);
+      const urlFile = await uploadFile(e.target.files[0], user?.uid);
+      setPhoto(urlFile);
     } catch (err) {
-      console.error(err);
-      alert("An error occured while fetching user data");
+      console.log("Error al subir archivo");
     }
   };
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) return navigate("/");
-
-    fetchUserName();
-  }, [user, loading]);
+    //if (!user) return navigate("/");
+    console.log("Fetchear la primera vez");
+    getUserName(user?.uid).then((n) => {
+      setName(n);
+    });
+    getUserPhoto(user?.uid).then((ph) => {
+      ph ? setPhoto(ph) : setPhoto(userPhotoDefault);
+    });
+  }, []);
 
   return (
-    <div className="form">
-      <div className="form__container">
-        <div className="form__item">{name}</div>
-        <div className="form__item">{user?.email}</div>
-        <button className="form__btn" onClick={logout}>
-          Logout
-        </button>
+    <div className="page-center">
+      <div className="carduser">
+        <div className="carduser__profile">
+          <img className="carduser__picture" src={photo} alt="Foto de perfil" />
+          <div className="carduser__info">
+            <h2 className="carduser__username">{name}</h2>
+            <p className="carduser__email">{user?.email}</p>
+            <div className="carduser__stats">
+              <div className="carduser__stat">
+                <div className="carduser__icon">
+                  <FaSearch />
+                </div>
+                <p className="carduser__value">25</p>
+              </div>
+              <div className="carduser__stat">
+                <div className="carduser__icon">
+                  <AiFillHeart />
+                </div>
+                <p className="carduser__value">10</p>
+              </div>
+              <div className="carduser__stat">
+                <div className="carduser__icon">
+                  <BiSolidHide />
+                </div>
+                <p className="carduser__value">5</p>
+              </div>
+              <div className="carduser__stat">
+                <div className="carduser__icon">
+                  <FiMessageSquare />
+                </div>
+                <p className="carduser__value">15</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="carduser__btns">
+          {/* <button class="carduser__btn-photo">Cambiar imagen</button> */}
+          <input
+            type="file"
+            hidden
+            id="upload-btn"
+            onChange={handleUploadBtn}
+          />
+          <label forhtml="upload-btn" className="carduser__btn-photo">
+            Choose File
+          </label>
+          <button className="carduser__btn-logout" onClick={logout}>
+            Cerrar sesión
+          </button>
+        </div>
       </div>
     </div>
   );

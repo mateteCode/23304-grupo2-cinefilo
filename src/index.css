@@ -516,3 +516,93 @@ body {
   border-radius: 50%;
   margin-right: 10px;
 }
+
+/* .page-container2 {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #dcdcdc;
+  padding: 30px;
+} */
+
+/* Páginas ruteadas*/
+.page-center {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card de la página User*/
+.carduser {
+  background-color: black;
+  color: white;
+  width: 450px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.carduser__profile {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.carduser__picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.carduser__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+  width: 60%;
+}
+
+.carduser__username {
+}
+
+.carduser__email {
+  font-size: 14px;
+}
+
+.carduser__stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.carduser__stat {
+  margin-bottom: 10px;
+}
+
+.carduser__icon {
+  font-size: 16px;
+}
+
+.carduser__value {
+  font-size: 14px;
+}
+
+.carduser__btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.carduser__btn-logout,
+.carduser__btn-photo {
+  background-color: red;
+  font-size: 0.8em;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 35%;
+}

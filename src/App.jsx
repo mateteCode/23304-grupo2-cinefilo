@@ -89,7 +89,7 @@ export default function App() {
                     />
                   }
                 ></Route>
-                <Route path="/user" element={<User />}></Route>
+                <Route path="/user" element={<User user={user} />}></Route>
               </Route>
               <Route element={<ProtectedRoute isAllowed={user === null} />}>
                 <Route path="/register" element={<Register />}></Route>
