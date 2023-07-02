@@ -19,10 +19,10 @@ export default function Register() {
     registerWithEmailAndPassword(name, email, password);
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (loading) return;
     if (user) navigate("/dashboard");
-  }, [user, loading]);
+  }, [user, loading]); */
 
   return (
     <div className="form">

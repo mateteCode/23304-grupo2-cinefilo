@@ -5,40 +5,61 @@ import Login from "./pages/Login";
 import Reset from "./pages/Reset";
 import User from "./pages/User";
 import Favorites from "./pages/Favorites";
-import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./API/firebase";
-import { RotateSpinner } from "react-spinners-kit";
-import "./index.css";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getFavorites, getBlocked } from "./API/firebase";
+import Navbar from "./components/Navbar/Navbar";
 import CommentsPopup from "./components/CommentsPopup/CommentsPopup";
+import { useAuthState } from "react-firebase-hooks/auth";
+import {
+  auth,
+  getFavorites,
+  getBlocked,
+  getUserPhoto,
+  getUserName,
+  getBlocked2,
+} from "./API/firebase";
+import { RotateSpinner } from "react-spinners-kit";
+import { useState, useEffect } from "react";
 import { useAppContext } from "./AppProvider";
+import "./index.css";
+
+import userPhotoDefault from "./assets/user_photo.png";
 
 export default function App() {
   const [user, loading, error] = useAuthState(auth);
   const [favorites, setFavorites] = useState([]);
   const [blocked, setBlocked] = useState([]);
 
-  const { showComments } = useAppContext();
+  const { showComments, dispatch } = useAppContext();
 
   useEffect(() => {
     if (user) {
-      console.log("Usuario autentificado");
       getFavorites(user, setFavorites);
       getBlocked(user, setBlocked);
-    } else {
-      console.log("No esta logueado");
+      getUserPhoto(user?.uid).then((ph) => {
+        dispatch({
+          type: "UPDATE_USER_PHOTO",
+          value: ph ? ph : userPhotoDefault,
+        });
+      });
+      getUserName(user?.uid).then((us) =>
+        dispatch({ type: "UPDATE_USER_NAME", value: us })
+      );
+      getBlocked2(user?.uid).then((bl) => {
+        console.log(`blocked2 ${bl}`);
+        dispatch({
+          type: "LOAD_BLOCKED",
+          value: bl ? bl : [],
+        });
+      });
     }
   }, [user]);
+
   return (
     <div className="App">
       {loading ? (
         <div className="spinner">
-          <RotateSpinner size={30} color="#000" loading={loading} />
+          <RotateSpinner size={30} color="#000" />
         </div>
       ) : (
         <BrowserRouter>

@@ -290,11 +290,15 @@ const uploadFile = async (file, userId) => {
 };
 
 const getUserPhoto = async (userId) => {
-  return getField("users", "photo", "uid", userId);
+  return await getField("users", "photo", "uid", userId);
 };
 
 const getUserName = async (userId) => {
-  return getField("users", "name", "uid", userId);
+  return await getField("users", "name", "uid", userId);
+};
+
+const getBlocked2 = async (userId) => {
+  return await getField("users", "blocked", "uid", userId);
 };
 
 export {
@@ -316,4 +320,5 @@ export {
   uploadFile,
   getUserPhoto,
   getUserName,
+  getBlocked2,
 };
