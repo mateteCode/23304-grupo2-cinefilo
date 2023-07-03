@@ -7,7 +7,7 @@ import { useAppContext } from "../AppProvider";
 export default function Home({ user }) {
   const [data, setData] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
-  const { dispatch, blocked, favorites } = useAppContext();
+  const { blocked, favorites } = useAppContext();
 
   return (
     <div className="home">

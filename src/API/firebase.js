@@ -214,6 +214,7 @@ const setUserPhoto = async (userId, urlFile) => {
   }
 };
 
+/* TODO: Usar un generador de id */
 const uploadFile = async (file, userId) => {
   const storageRef = ref(storage, `photo-user${userId}`);
   await uploadBytes(storageRef, file);

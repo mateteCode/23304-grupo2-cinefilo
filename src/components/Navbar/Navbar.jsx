@@ -15,7 +15,7 @@ export default function Navbar({ isAuthenticated }) {
 
   return (
     <>
-      <nav className="NavbarItems">
+      <nav className="navbaritems">
         <h1 className="logo">
           <span>Cinéfilo</span>
           <RiMovie2Fill className="logo-icon" />

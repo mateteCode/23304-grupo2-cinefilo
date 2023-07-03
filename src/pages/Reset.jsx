@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { auth, sendPasswordReset } from "../API/firebase";
+import { sendPasswordReset } from "../API/firebase";
 
 export default function Reset() {
   const [email, setEmail] = useState("");
-  const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/dashboard");
-  }, [user, loading]);
 
   return (
     <div className="form">
@@ -27,8 +18,7 @@ export default function Reset() {
         <button className="form__btn" onClick={() => sendPasswordReset(email)}>
           Restablecer la contraseña
         </button>
-
-        <div>
+        <div className="form__link">
           ¿No tenés una cuenta? <Link to="/register">Registrate</Link> ahora.
         </div>
       </div>

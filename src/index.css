@@ -27,7 +27,6 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: red;
 }
 
 /* Páginas con Formularios */
@@ -43,14 +42,16 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-color: #dcdcdc;
+  background-color: black;
   padding: 30px;
 }
 
 .form__textBox {
   padding: 10px;
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 16px;
+  margin-bottom: 25px;
+  border-radius: 5px;
+  width: 100%;
 }
 
 .form__btn {
@@ -59,7 +60,9 @@ body {
   margin-bottom: 10px;
   border: none;
   color: white;
-  background-color: black;
+  background-color: red;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .form__google {
@@ -72,6 +75,26 @@ body {
 
 .form__item {
   margin-bottom: 5px;
+}
+
+.form__link,
+.form__link a:visited {
+  color: white;
+}
+
+.form__error {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ff7b5a;
+  text-align: end;
+  position: absolute;
+  bottom: 12px;
+  right: 4px;
+}
+
+.form__box {
+  width: 100%;
+  position: relative;
 }
 
 /* Componente MovieCard */
@@ -103,7 +126,6 @@ body {
   box-shadow: 10px 10px 10px #111;
   transition: background-color 0.25s linear;
   text-align: center;
-  font-family: "Roboto", sans-serif;
   background-size: cover;
 }
 .movie:hover {
@@ -176,7 +198,7 @@ body {
 }
 
 /* Componente Navbar */
-.NavbarItems {
+.navbaritems {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -200,6 +222,9 @@ body {
   cursor: pointer;
   display: flex;
   align-items: center;
+}
+.logo span {
+  text-transform: uppercase;
 }
 
 .logo-icon {
@@ -258,7 +283,7 @@ body {
 }
 
 @media screen and (max-width: 850px) {
-  .NavbarItems {
+  .navbaritems {
     z-index: 99;
   }
 
@@ -444,17 +469,17 @@ body {
   gap: 15px;
 }
 
-.popup__movie__infos {
+.popup__infos {
   display: flex;
   justify-content: space-around;
   font-weight: 800;
 }
 
-.popup__messages__form {
+.popup___form {
   margin: 20px;
 }
 
-.popup__messages__form__textarea {
+.popup__textarea {
   width: 100%;
   height: 80px;
   resize: none;
@@ -462,7 +487,7 @@ body {
   padding: 10px;
 }
 
-.popup__messages__form__button {
+.popup__button {
   background-color: red;
   color: #ffffff;
   border: none;
@@ -471,13 +496,12 @@ body {
   cursor: pointer;
 }
 
-.popup__messages__list {
+.popup__list {
   margin-top: 20px;
   padding: 10px;
 }
 
-.popup__mesagges_list_item {
-  /*background-color: red;*/
+.popup__item {
   color: white;
   margin-bottom: 10px;
   border-bottom: 1px solid red;
@@ -489,11 +513,11 @@ body {
   padding: 10px;
   gap: 10px;
 }
-.popup__messages__list__comment {
+.popup__comment {
   align-self: flex-start;
 }
 
-.popup__messages__list__details {
+.popup__details {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -503,27 +527,20 @@ body {
   align-items: center;
 }
 
-.popup__messages__list__user {
+.popup__user {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.popup__messages__list__user__photo {
+.popup__photo {
   width: 25px;
   height: 25px;
   border-radius: 50%;
   margin-right: 10px;
+  object-fit: cover;
 }
-
-/* .page-container2 {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  background-color: #dcdcdc;
-  padding: 30px;
-} */
 
 /* Páginas ruteadas*/
 .page-center {

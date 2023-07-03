@@ -18,9 +18,8 @@ import {
   getUserName,
 } from "./API/firebase";
 import { RotateSpinner } from "react-spinners-kit";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useAppContext } from "./AppProvider";
-import "./index.css";
 
 import userPhotoDefault from "./assets/user_photo.png";
 

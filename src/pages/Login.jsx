@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  auth,
-  logInWithEmailAndPassword,
-  signInWithGoogle,
-} from "../API/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { logInWithEmailAndPassword, signInWithGoogle } from "../API/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (user) navigate("/dashboard");
-  }, [user, loading]);
 
   return (
     <div className="form">
@@ -46,10 +32,10 @@ export default function Login() {
         <button className="form__btn form__google" onClick={signInWithGoogle}>
           Acceder con Google
         </button>
-        <div>
+        <div className="form__link">
           <Link to="/reset">Olvidé mi contraseña</Link>
         </div>
-        <div>
+        <div className="form__link">
           ¿No tenés una cuenta? <Link to="/register">Registrate</Link> ahora.
         </div>
       </div>
