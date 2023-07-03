@@ -86,7 +86,6 @@ const signInWithGoogle = async () => {
 const logInWithEmailAndPassword = async (email, password) => {
   try {
     const res = await signInWithEmailAndPassword(auth, email, password);
-    console.log(res);
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -96,7 +95,6 @@ const logInWithEmailAndPassword = async (email, password) => {
 const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    console.log(res);
     const user = res.user;
     await addDoc(collection(db, "users"), {
       uid: user.uid,
@@ -116,7 +114,6 @@ const registerWithEmailAndPassword = async (name, email, password) => {
 const sendPasswordReset = async (email) => {
   try {
     const res = await sendPasswordResetEmail(auth, email);
-    console.log(res);
     alert("Password reset link sent!");
   } catch (err) {
     console.error(err);
@@ -136,7 +133,6 @@ const addFavorites = async (user, movie) => {
     await updateDoc(documentRef, {
       favorites: arrayUnion(movie),
     });
-    console.log("pelicula agregada");
   } catch (err) {
     console.log(err);
   }
@@ -150,45 +146,8 @@ const addBlocked = async (user, movie) => {
     await updateDoc(documentRef, {
       blocked: arrayUnion(movie),
     });
-    console.log("pelicula bloqueada");
   } catch (err) {
     console.log(err);
-  }
-};
-
-const getFavorites = async (user, setFavorites) => {
-  try {
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const docs = await getDocs(q);
-    const documentRef = doc(db, "users", docs.docs[0].id);
-    const documentSnapshot = await getDoc(documentRef);
-    if (documentSnapshot.exists()) {
-      const result = documentSnapshot.data().favorites;
-      setFavorites([...result]);
-    } else {
-      // The document doesn't exist
-      console.log("No such document!");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getBlocked = async (user, setBlocked) => {
-  try {
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const docs = await getDocs(q);
-    const documentRef = doc(db, "users", docs.docs[0].id);
-    const documentSnapshot = await getDoc(documentRef);
-    if (documentSnapshot.exists()) {
-      const result = documentSnapshot.data().blocked;
-      setBlocked([...result]);
-    } else {
-      // The document doesn't exist
-      console.log("No such document!");
-    }
-  } catch (error) {
-    console.log(error);
   }
 };
 
@@ -200,7 +159,6 @@ const removeFavorites = async (user, movie) => {
     await updateDoc(documentRef, {
       favorites: arrayRemove(movie),
     });
-    console.log("pelicula eliminada de favoritas");
   } catch (err) {
     console.log(err);
   }
@@ -214,7 +172,6 @@ const removeBlocked = async (user, movie) => {
     await updateDoc(documentRef, {
       blocked: arrayRemove(movie),
     });
-    console.log("pelicula eliminada de bloqueadas");
   } catch (err) {
     console.log(err);
   }
@@ -225,7 +182,6 @@ const addComment = async (movieId, comment) => {
     const q = query(collection(db, "comments"), where("id", "==", movieId));
     const docs = await getDocs(q);
     if (docs.docs.length === 0) {
-      console.log("No existe comentario de esa peli");
       await addDoc(collection(db, "comments"), {
         id: movieId,
         comments: [comment],
@@ -236,37 +192,14 @@ const addComment = async (movieId, comment) => {
         comments: arrayUnion(comment),
       });
     }
-    console.log("Comentario agregado");
   } catch (err) {
     console.error(err);
   }
 };
 
 const getComments = async (movieId) => {
-  try {
-    const q = query(collection(db, "comments"), where("id", "==", movieId));
-    const docs = await getDocs(q);
-    const documentRef = doc(db, "comments", docs.docs[0].id);
-    const documentSnapshot = await getDoc(documentRef);
-    if (documentSnapshot.exists()) {
-      const result = documentSnapshot.data().comments;
-      console.log(result);
-      return result;
-    } else {
-      console.log("No such document!");
-    }
-  } catch (error) {
-    console.log(error);
-  }
-  return [];
+  return await getField("comments", "comments", "id", movieId);
 };
-
-/* const getComments = async (movieId) => {
-  let result = getField("comments", "comments", "id", movieId);
-  result = result ? result : [];
-  console.log(result);
-  return result;
-}; */
 
 const setUserPhoto = async (userId, urlFile) => {
   try {
@@ -297,11 +230,11 @@ const getUserName = async (userId) => {
   return await getField("users", "name", "uid", userId);
 };
 
-const getBlocked2 = async (userId) => {
+const getBlocked = async (userId) => {
   return await getField("users", "blocked", "uid", userId);
 };
 
-const getFavorites2 = async (userId) => {
+const getFavorites = async (userId) => {
   return await getField("users", "favorites", "uid", userId);
 };
 
@@ -314,16 +247,14 @@ export {
   sendPasswordReset,
   logout,
   addFavorites,
-  getFavorites,
   removeFavorites,
   addBlocked,
-  getBlocked,
   removeBlocked,
   addComment,
   getComments,
   uploadFile,
   getUserPhoto,
   getUserName,
-  getBlocked2,
-  getFavorites2
+  getBlocked,
+  getFavorites,
 };

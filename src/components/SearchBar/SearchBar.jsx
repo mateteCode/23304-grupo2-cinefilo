@@ -1,8 +1,3 @@
-// APY KEY:
-// https://api.themoviedb.org/3/movie/550?api_key=8f578cdecb8c15112d8837ddfb9c6838
-// https://api.themoviedb.org/3/search/movie?api_key=8f578cdecb8c15112d8837ddfb9c6838&query=Jack+Reacher
-// https://api.themoviedb.org/3/discover/movie?api_key=###&sort_by=popularity.desc&with_genres=28&page=1
-
 const APIKEY = "8f578cdecb8c15112d8837ddfb9c6838";
 
 import { useEffect, useState } from "react";
@@ -36,7 +31,6 @@ export default function SearchBar({
 
   const handleScroll = () => {
     if (isEndOfScroll()) {
-      console.log("SCROLLING");
       setLoadMoreData(true);
       //window.scroll(0, document.documentElement.scrollHeight - 200);
     }
@@ -69,7 +63,6 @@ export default function SearchBar({
             blocked:
               blocked.find((block) => block.id === item.id) !== undefined,
           };
-          console.log(newItem);
           return newItem;
         });
         setData((prev) => [...prev, ...newData]);
@@ -123,9 +116,9 @@ export default function SearchBar({
       >
         <FaTimes />
       </div>
-      <p className="search-results">
-        {totalResults > 0 && <div>{totalResults} peliculas encontradas</div>}
-      </p>
+      <div className="search-results">
+        {totalResults > 0 && <p>{totalResults} peliculas encontradas</p>}
+      </div>
     </div>
   );
 }

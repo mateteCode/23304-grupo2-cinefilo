@@ -1,4 +1,4 @@
-import MovieList from "../components/MovieCard2/MovieList";
+import MovieList from "../components/MovieCard/MovieList";
 import { useAppContext } from "../AppProvider";
 
 export default function Blocked({ user }) {

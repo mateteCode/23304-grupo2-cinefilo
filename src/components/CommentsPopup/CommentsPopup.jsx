@@ -26,12 +26,11 @@ const CommentsPopup = ({ user }) => {
   };
 
   useEffect(() => {
-    console.log(`useEffect#inicio ${loading}`);
     getComments(currentMovie.id)
       .then((comments) => {
         dispatch({
           type: "GET_COMMENTS_COMPLETED",
-          value: comments,
+          value: comments ? comments : [],
         });
         setloading(false);
       })

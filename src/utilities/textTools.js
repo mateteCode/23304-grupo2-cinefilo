@@ -1,4 +1,4 @@
-import imagePath from "../assets/Imagen_no_disponible.svg";
+import imagePath from "../assets/Imagen_no_disponible.png";
 
 export function concatenateWords(words) {
   return words.trim().replaceAll(" ", "+");

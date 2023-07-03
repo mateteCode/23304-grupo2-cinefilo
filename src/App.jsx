@@ -16,8 +16,6 @@ import {
   getBlocked,
   getUserPhoto,
   getUserName,
-  getBlocked2,
-  getFavorites2,
 } from "./API/firebase";
 import { RotateSpinner } from "react-spinners-kit";
 import { useState, useEffect } from "react";
@@ -28,15 +26,12 @@ import userPhotoDefault from "./assets/user_photo.png";
 
 export default function App() {
   const [user, loading, error] = useAuthState(auth);
-  const [favorites, setFavorites] = useState([]);
-  const [blocked, setBlocked] = useState([]);
-
   const { showComments, dispatch } = useAppContext();
 
   useEffect(() => {
     if (user) {
-      getFavorites(user, setFavorites);
-      getBlocked(user, setBlocked);
+      //getFavorites(user, setFavorites);
+      //getBlocked(user, setBlocked);
       getUserPhoto(user?.uid).then((ph) => {
         dispatch({
           type: "UPDATE_USER_PHOTO",
@@ -46,15 +41,13 @@ export default function App() {
       getUserName(user?.uid).then((us) =>
         dispatch({ type: "UPDATE_USER_NAME", value: us })
       );
-      getBlocked2(user?.uid).then((bl) => {
-        console.log(`blocked2 ${bl}`);
+      getBlocked(user?.uid).then((bl) => {
         dispatch({
           type: "UPDATE_BLOCKED",
           value: bl ? bl : [],
         });
       });
-      getFavorites2(user?.uid).then((fa) => {
-        console.log(`favorites2 ${fa}`);
+      getFavorites(user?.uid).then((fa) => {
         dispatch({
           type: "UPDATE_FAVORITES",
           value: fa ? fa : [],
@@ -74,18 +67,7 @@ export default function App() {
           <Navbar isAuthenticated={user !== null} />
           <div className="content">
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <Home
-                    user={user}
-                    favorites={favorites}
-                    setFavorites={setFavorites}
-                    blocked={blocked}
-                    setBlocked={setBlocked}
-                  />
-                }
-              ></Route>
+              <Route path="/" element={<Home user={user} />}></Route>
               <Route
                 element={
                   <ProtectedRoute
@@ -96,23 +78,11 @@ export default function App() {
               >
                 <Route
                   path="/favorites"
-                  element={
-                    <Favorites
-                      favorites={favorites}
-                      user={user}
-                      setFavorites={setFavorites}
-                      setBlocked={setBlocked}
-                      blocked={blocked}
-                    />
-                  }
+                  element={<Favorites user={user} />}
                 ></Route>
                 <Route
                   path="/blocked"
-                  element={
-                    <Blocked
-                      user={user}
-                    />
-                  }
+                  element={<Blocked user={user} />}
                 ></Route>
                 <Route path="/user" element={<User user={user} />}></Route>
               </Route>

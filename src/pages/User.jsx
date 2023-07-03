@@ -17,8 +17,6 @@ export default function User({ user }) {
     }
   };
 
-  console.log(userPhoto);
-
   return (
     <div className="page-center">
       <div className="carduser">
@@ -36,7 +34,7 @@ export default function User({ user }) {
                 <div className="carduser__icon">
                   <FaSearch />
                 </div>
-                <p className="carduser__value">25</p>
+                <p className="carduser__value">--</p>
               </div>
               <div className="carduser__stat">
                 <div className="carduser__icon">
@@ -54,7 +52,7 @@ export default function User({ user }) {
                 <div className="carduser__icon">
                   <FiMessageSquare />
                 </div>
-                <p className="carduser__value">15</p>
+                <p className="carduser__value">--</p>
               </div>
             </div>
           </div>

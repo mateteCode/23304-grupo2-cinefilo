@@ -15,7 +15,6 @@ export default function Login() {
 
   useEffect(() => {
     if (loading) {
-      // maybe trigger a loading screen
       return;
     }
     if (user) navigate("/dashboard");
