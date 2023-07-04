@@ -16,6 +16,7 @@ import {
   getBlocked,
   getUserPhoto,
   getUserName,
+  getCommentsByUser,
 } from "./API/firebase";
 import { RotateSpinner } from "react-spinners-kit";
 import { useEffect } from "react";

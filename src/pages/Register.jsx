@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   registerWithEmailAndPassword,
@@ -7,9 +6,6 @@ import {
 import { useForm } from "react-hook-form";
 
 export default function Register() {
-  //const [email, setEmail] = useState("");
-  //const [password, setPassword] = useState("");
-  //const [name, setName] = useState("");
   const {
     register,
     handleSubmit,
@@ -19,11 +15,11 @@ export default function Register() {
   const handleRegister = ({ name, email, password }) => {
     registerWithEmailAndPassword(name, email, password);
   };
-  const msgRequired = "Es requerido";
+  const msgRequired = "Es requerido.";
 
   return (
-    <div className="form" onSubmit={handleSubmit(handleRegister)}>
-      <form className="form__container">
+    <div className="form">
+      <form className="form__container" onSubmit={handleSubmit(handleRegister)}>
         <div className="form__box">
           <input
             {...register("name", { required: msgRequired })}
@@ -65,11 +61,11 @@ export default function Register() {
             placeholder="Contraseña"
           />
           <p className="form__error">
-            {errors.password?.type === "required" && "Es required"}
+            {errors.password?.type === "required" && msgRequired}
             {errors.password?.type === "checkLength" &&
-              "Debe tener mínimo 6 caracteres"}
+              "Debe tener mínimo 6 caracteres."}
             {errors.password?.type === "matchPattern" &&
-              "Minuscula, mayuscula, digito y caracter especial"}
+              "Usar minúscula, mayúscula, dígito y carácter especial."}
           </p>
         </div>
 

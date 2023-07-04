@@ -1,32 +1,47 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { logInWithEmailAndPassword, signInWithGoogle } from "../API/firebase";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const handleLogin = ({ email, password }) => {
+    logInWithEmailAndPassword(email, password);
+  };
+  const msgRequired = "Es requerido.";
 
   return (
     <div className="form">
-      <div className="form__container">
-        <input
-          type="text"
-          className="form__textBox"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Correo electrónico"
-        />
-        <input
-          type="password"
-          className="form__textBox"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Contraseñá"
-        />
-        <button
-          className="form__btn"
-          onClick={() => logInWithEmailAndPassword(email, password)}
-        >
+      <form className="form__container" onSubmit={handleSubmit(handleLogin)}>
+        <div className="form__box">
+          <input
+            {...register("email", {
+              required: msgRequired,
+              pattern: {
+                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                message: "El correo electrónico no es válido",
+              },
+            })}
+            type="text"
+            className="form__textBox"
+            placeholder="Correo electrónico"
+          />
+          <p className="form__error">{errors.email?.message}</p>
+        </div>
+        <div className="form__box">
+          <input
+            {...register("password", { required: msgRequired })}
+            type="password"
+            className="form__textBox"
+            placeholder="Contraseñá"
+          />
+          <p className="form__error">{errors.password?.message}</p>
+        </div>
+        <button type="submit" className="form__btn">
           Acceder
         </button>
         <button className="form__btn form__google" onClick={signInWithGoogle}>
@@ -38,7 +53,7 @@ export default function Login() {
         <div className="form__link">
           ¿No tenés una cuenta? <Link to="/register">Registrate</Link> ahora.
         </div>
-      </div>
+      </form>
     </div>
   );
 }

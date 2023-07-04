@@ -8,7 +8,7 @@ import {
   addBlocked,
   removeBlocked,
 } from "../../API/firebase";
-
+import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../AppProvider";
 
 export const Movie = ({ movie, user, hideBlocked }) => {
@@ -18,52 +18,66 @@ export const Movie = ({ movie, user, hideBlocked }) => {
     blocked.find((blocked) => blocked.id === movie.id) !== undefined;
   const { id, title, overview, vote_average, release_date, poster_path } =
     movie;
+  const navigate = useNavigate();
 
   const handleFavoriteBtn = () => {
-    const newFavorite = {
-      id,
-      title,
-      overview,
-      vote_average,
-      release_date,
-      poster_path,
-    };
-    if (movie.favorite) {
-      removeFavorites(user, newFavorite);
-      const newFavorites = favorites.filter((fav) => {
-        return movie.id !== fav.id;
-      });
-      dispatch({ type: "UPDATE_FAVORITES", value: newFavorites });
-    } else {
-      addFavorites(user, newFavorite);
-      dispatch({
-        type: "UPDATE_FAVORITES",
-        value: [...favorites, newFavorite],
-      });
+    if (!user) navigate("/login");
+    else {
+      const newFavorite = {
+        id,
+        title,
+        overview,
+        vote_average,
+        release_date,
+        poster_path,
+      };
+      if (movie.favorite) {
+        removeFavorites(user, newFavorite);
+        const newFavorites = favorites.filter((fav) => {
+          return movie.id !== fav.id;
+        });
+        dispatch({ type: "UPDATE_FAVORITES", value: newFavorites });
+      } else {
+        addFavorites(user, newFavorite);
+        dispatch({
+          type: "UPDATE_FAVORITES",
+          value: [...favorites, newFavorite],
+        });
+      }
     }
   };
 
   const handleBlockedBtn = () => {
-    const newBlock = {
-      id,
-      title,
-      overview,
-      vote_average,
-      release_date,
-      poster_path,
-    };
-    if (movie.blocked) {
-      removeBlocked(user, newBlock);
-      const newBlocked = blocked.filter((block) => {
-        return movie.id !== block.id;
-      });
-      dispatch({ type: "UPDATE_BLOCKED", value: newBlocked });
-    } else {
-      addBlocked(user, newBlock);
-      dispatch({
-        type: "UPDATE_BLOCKED",
-        value: [...blocked, newBlock],
-      });
+    if (!user) navigate("/login");
+    else {
+      const newBlock = {
+        id,
+        title,
+        overview,
+        vote_average,
+        release_date,
+        poster_path,
+      };
+      if (movie.blocked) {
+        removeBlocked(user, newBlock);
+        const newBlocked = blocked.filter((block) => {
+          return movie.id !== block.id;
+        });
+        dispatch({ type: "UPDATE_BLOCKED", value: newBlocked });
+      } else {
+        addBlocked(user, newBlock);
+        dispatch({
+          type: "UPDATE_BLOCKED",
+          value: [...blocked, newBlock],
+        });
+      }
+    }
+  };
+
+  const handleCommentsBtn = () => {
+    if (!user) navigate("/login");
+    else {
+      dispatch({ type: "SHOW_COMMENTS", value: movie });
     }
   };
 
@@ -80,10 +94,7 @@ export const Movie = ({ movie, user, hideBlocked }) => {
         <div className="movie__btn" onClick={handleFavoriteBtn}>
           {movie.favorite ? <AiFillHeart /> : <AiOutlineHeart />}
         </div>
-        <div
-          className="movie__btn"
-          onClick={() => dispatch({ type: "SHOW_COMMENTS", value: movie })}
-        >
+        <div className="movie__btn" onClick={handleCommentsBtn}>
           <FiMessageSquare />
         </div>
         <div className="movie__btn" onClick={handleBlockedBtn}>

@@ -44,6 +44,7 @@ body {
   text-align: center;
   background-color: black;
   padding: 30px;
+  width: 500px;
 }
 
 .form__textBox {
@@ -63,6 +64,7 @@ body {
   background-color: red;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 8px;
 }
 
 .form__google {
@@ -83,12 +85,12 @@ body {
 }
 
 .form__error {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   color: #ff7b5a;
   text-align: end;
   position: absolute;
-  bottom: 12px;
+  bottom: 8px;
   right: 4px;
 }
 
