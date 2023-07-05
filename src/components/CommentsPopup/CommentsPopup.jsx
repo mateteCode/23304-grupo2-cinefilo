@@ -14,18 +14,19 @@ const CommentsPopup = ({ user }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const today = new Date();
     setloading(true);
-    addComment(currentMovie.id, comment).then(() => {
+    const today = new Date();
+    const newComment = {
+      date: formatDate(today),
+      name: userName,
+      comment,
+      id: today.getTime(),
+      userId: user.uid,
+    };
+    addComment(currentMovie.id, newComment).then(() => {
       dispatch({
         type: "ADD_COMMENT",
-        value: {
-          date: formatDate(today),
-          name: userName,
-          comment,
-          id: today.getTime(),
-          userId: user.uid,
-        },
+        value: newComment,
       });
       setloading(false);
     });
