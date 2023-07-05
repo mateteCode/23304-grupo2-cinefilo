@@ -15,13 +15,12 @@ import {
   collection,
   where,
   addDoc,
-} from "firebase/firestore";
-import {
   doc,
   updateDoc,
   arrayUnion,
   arrayRemove,
   getDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -34,6 +33,8 @@ const firebaseConfig = {
   messagingSenderId: "497685829031",
   appId: "1:497685829031:web:4171ccc2354c4fcb3a9282",
 };
+
+const COLLECTION_COMMENTS = "comments2";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -238,6 +239,52 @@ const getBlocked = async (userId) => {
 const getFavorites = async (userId) => {
   return await getField("users", "favorites", "uid", userId);
 };
+
+/* Funciones de prueba para cambiar la estructura de datos */
+async function addComment2(userId, movieId, content) {
+  try {
+    const newCommentRef = await addDoc(collection(db, COLLECTION_COMMENTS), {
+      userId,
+      movieId,
+      content,
+      timestamp: serverTimestamp(),
+    });
+    console.log("Comentario guardado con ID:", newCommentRef.id);
+  } catch (error) {
+    console.log("Error al guardar el comentario:", error);
+  }
+}
+
+async function getCommentsByMovie(movieId) {
+  try {
+    const q = query(
+      collection(db, COLLECTION_COMMENTS),
+      where("movieId", "==", movieId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data());
+    });
+  } catch (error) {
+    console.log("Error al obtener los comentarios:", error);
+  }
+}
+
+async function getCommentsByUser(userId) {
+  try {
+    const q = query(
+      collection(db, COLLECTION_COMMENTS),
+      where("userId", "==", userId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, "=>", doc.data());
+    });
+  } catch (error) {
+    console.log("Error al obtener los comentarios:", error);
+  }
+}
+/* FIN: Funciones de prueba para cambiar la estructura de datos */
 
 export {
   db,

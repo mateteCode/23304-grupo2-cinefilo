@@ -4,6 +4,7 @@ import {
   signInWithGoogle,
 } from "../API/firebase";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 export default function Register() {
   const {
@@ -15,7 +16,13 @@ export default function Register() {
   const handleRegister = ({ name, email, password }) => {
     registerWithEmailAndPassword(name, email, password);
   };
+
+  const handleRegisterGoogle = () => {
+    setShowErrors(false);
+    signInWithGoogle();
+  };
   const msgRequired = "Es requerido.";
+  const [showErrors, setShowErrors] = useState(true);
 
   return (
     <div className="form">
@@ -27,7 +34,7 @@ export default function Register() {
             className="form__textBox"
             placeholder="Nombre"
           />
-          <p className="form__error">{errors.name?.message}</p>
+          <p className="form__error">{showErrors && errors.name?.message}</p>
         </div>
         <div className="form__box">
           <input
@@ -42,7 +49,7 @@ export default function Register() {
             className="form__textBox"
             placeholder="Correo electrónico"
           />
-          <p className="form__error">{errors.email?.message}</p>
+          <p className="form__error">{showErrors && errors.email?.message}</p>
         </div>
         <div className="form__box">
           <input
@@ -61,10 +68,12 @@ export default function Register() {
             placeholder="Contraseña"
           />
           <p className="form__error">
-            {errors.password?.type === "required" && msgRequired}
-            {errors.password?.type === "checkLength" &&
+            {showErrors && errors.password?.type === "required" && msgRequired}
+            {showErrors &&
+              errors.password?.type === "checkLength" &&
               "Debe tener mínimo 6 caracteres."}
-            {errors.password?.type === "matchPattern" &&
+            {showErrors &&
+              errors.password?.type === "matchPattern" &&
               "Usar minúscula, mayúscula, dígito y carácter especial."}
           </p>
         </div>
@@ -72,7 +81,10 @@ export default function Register() {
         <button type="submit" className="form__btn">
           Registrarse
         </button>
-        <button className="form__btn form__google" onClick={signInWithGoogle}>
+        <button
+          className="form__btn form__google"
+          onClick={handleRegisterGoogle}
+        >
           Registrarse con Google
         </button>
         <div className="form__link">

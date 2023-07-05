@@ -1,23 +1,14 @@
 import MovieList from "../components/MovieCard/MovieList";
 import SearchBar from "../components/SearchBar/SearchBar";
-import { useState } from "react";
 import { RotateSpinner } from "react-spinners-kit";
 import { useAppContext } from "../AppProvider";
 
 export default function Home({ user }) {
-  const [data, setData] = useState([]);
-  const [dataLoading, setDataLoading] = useState(false);
-  const { blocked, favorites } = useAppContext();
+  const { blocked, favorites, data, dataLoading } = useAppContext();
 
   return (
     <div className="home">
-      <SearchBar
-        setData={setData}
-        dataLoading={dataLoading}
-        setDataLoading={setDataLoading}
-        favorites={favorites}
-        blocked={blocked}
-      />
+      <SearchBar />
       {data && <MovieList data={data} user={user} hideBlocked={true} />}
       {dataLoading && (
         <div className="spinner">

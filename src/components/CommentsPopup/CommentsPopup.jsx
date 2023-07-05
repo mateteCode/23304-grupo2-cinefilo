@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../AppProvider";
-import { getComments } from "../../API/firebase";
+import { getComments, addComment } from "../../API/firebase";
 import { formatDate } from "../../utilities/timeTools";
 import { FaTimes } from "react-icons/fa";
 import { RotateSpinner } from "react-spinners-kit";
@@ -15,15 +15,19 @@ const CommentsPopup = ({ user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const today = new Date();
-    dispatch({
-      type: "SAVE_COMMENT",
-      value: {
-        date: formatDate(today),
-        name: userName,
-        comment,
-        id: today.getTime(),
-        userId: user.uid,
-      },
+    setloading(true);
+    addComment(currentMovie.id, comment).then(() => {
+      dispatch({
+        type: "ADD_COMMENT",
+        value: {
+          date: formatDate(today),
+          name: userName,
+          comment,
+          id: today.getTime(),
+          userId: user.uid,
+        },
+      });
+      setloading(false);
     });
     setComment("");
   };
@@ -32,7 +36,7 @@ const CommentsPopup = ({ user }) => {
     getComments(currentMovie.id)
       .then((comments) => {
         dispatch({
-          type: "GET_COMMENTS_COMPLETED",
+          type: "SET_COMMENTS",
           value: comments ? comments : [],
         });
         setloading(false);
@@ -51,7 +55,7 @@ const CommentsPopup = ({ user }) => {
       <div className="popup__box">
         <span
           className="popup__closebtn"
-          onClick={() => dispatch({ type: "HIDE_COMMENTS" })}
+          onClick={() => dispatch({ type: "CLOSE_POPUP_COMMENTS" })}
         >
           <FaTimes />
         </span>

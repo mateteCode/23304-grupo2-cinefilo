@@ -29,26 +29,24 @@ export default function App() {
 
   useEffect(() => {
     if (user) {
-      //getFavorites(user, setFavorites);
-      //getBlocked(user, setBlocked);
       getUserPhoto(user?.uid).then((ph) => {
         dispatch({
-          type: "UPDATE_USER_PHOTO",
+          type: "SET_USERPHOTO",
           value: ph ? ph : userPhotoDefault,
         });
       });
       getUserName(user?.uid).then((us) =>
-        dispatch({ type: "UPDATE_USER_NAME", value: us })
+        dispatch({ type: "SET_USERNAME", value: us })
       );
       getBlocked(user?.uid).then((bl) => {
         dispatch({
-          type: "UPDATE_BLOCKED",
+          type: "SET_BLOCKED",
           value: bl ? bl : [],
         });
       });
       getFavorites(user?.uid).then((fa) => {
         dispatch({
-          type: "UPDATE_FAVORITES",
+          type: "SET_FAVORITES",
           value: fa ? fa : [],
         });
       });

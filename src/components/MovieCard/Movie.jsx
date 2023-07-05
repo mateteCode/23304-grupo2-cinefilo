@@ -10,6 +10,7 @@ import {
 } from "../../API/firebase";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../AppProvider";
+import imagePath from "../../assets/Imagen_no_disponible.png";
 
 export const Movie = ({ movie, user, hideBlocked }) => {
   const { dispatch, blocked, favorites } = useAppContext();
@@ -36,11 +37,11 @@ export const Movie = ({ movie, user, hideBlocked }) => {
         const newFavorites = favorites.filter((fav) => {
           return movie.id !== fav.id;
         });
-        dispatch({ type: "UPDATE_FAVORITES", value: newFavorites });
+        dispatch({ type: "SET_FAVORITES", value: newFavorites });
       } else {
         addFavorites(user, newFavorite);
         dispatch({
-          type: "UPDATE_FAVORITES",
+          type: "SET_FAVORITES",
           value: [...favorites, newFavorite],
         });
       }
@@ -63,11 +64,11 @@ export const Movie = ({ movie, user, hideBlocked }) => {
         const newBlocked = blocked.filter((block) => {
           return movie.id !== block.id;
         });
-        dispatch({ type: "UPDATE_BLOCKED", value: newBlocked });
+        dispatch({ type: "SET_BLOCKED", value: newBlocked });
       } else {
         addBlocked(user, newBlock);
         dispatch({
-          type: "UPDATE_BLOCKED",
+          type: "SET_BLOCKED",
           value: [...blocked, newBlock],
         });
       }
@@ -77,14 +78,20 @@ export const Movie = ({ movie, user, hideBlocked }) => {
   const handleCommentsBtn = () => {
     if (!user) navigate("/login");
     else {
-      dispatch({ type: "SHOW_COMMENTS", value: movie });
+      dispatch({ type: "OPEN_POPUP_COMMENTS", value: movie });
     }
   };
 
   if (movie.blocked && hideBlocked) return;
   return (
     <div className="movie" style={{ backgroundImage: `url(${poster_path})` }}>
-      <h2 className="movie__title">{title}</h2>
+      <h2
+        className={
+          poster_path === imagePath ? "movie__title-noposter" : "movie__title"
+        }
+      >
+        {title}
+      </h2>
       <div className="movie__description">{overview}</div>
       <div className="movie__infos">
         <MovieInfo name="rating" value={vote_average} />

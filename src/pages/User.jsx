@@ -11,10 +11,15 @@ export default function User({ user }) {
   const handleUploadBtn = async (e) => {
     try {
       const urlFile = await uploadFile(e.target.files[0], user?.uid);
-      dispatch({ type: "UPDATE_USER_PHOTO", value: urlFile });
+      dispatch({ type: "SET_USERPHOTO", value: urlFile });
     } catch (err) {
       console.log("Error al subir archivo");
     }
+  };
+
+  const handleLogoutBtn = () => {
+    logout();
+    dispatch({ type: "RESET_STATE" });
   };
 
   return (
@@ -67,7 +72,7 @@ export default function User({ user }) {
           <label htmlFor="upload-btn" className="carduser__btn-photo">
             Cambiar imagen
           </label>
-          <button className="carduser__btn-logout" onClick={logout}>
+          <button className="carduser__btn-logout" onClick={handleLogoutBtn}>
             Cerrar sesión
           </button>
         </div>

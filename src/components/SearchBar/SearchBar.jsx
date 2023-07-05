@@ -9,30 +9,31 @@ import {
   getRatingFixed,
 } from "../../utilities/textTools";
 import { FaSearch, FaTimes } from "react-icons/fa";
+import { useAppContext } from "../../AppProvider";
 
-export default function SearchBar({
-  setData,
-  dataLoading,
-  setDataLoading,
-  favorites,
-  blocked,
-}) {
-  const [text, setText] = useState("");
-  const [page, setPage] = useState(null);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalResults, setTotalResults] = useState(0);
+export default function SearchBar() {
   const [loadMoreData, setLoadMoreData] = useState(false);
-  let isEmpty = text === "";
+  const {
+    dispatch,
+    data,
+    dataLoading,
+    textSearch,
+    page,
+    totalPages,
+    totalResults,
+    blocked,
+    favorites
+  } = useAppContext();
+  let isEmpty = textSearch === "";
 
   const handleSearchBtn = () => {
-    setPage(1);
-    setData([]);
+    dispatch({ type: "SET_PAGE", value: 1 });
+    dispatch({ type: "RESET_DATA" });
   };
 
   const handleScroll = () => {
     if (isEndOfScroll()) {
       setLoadMoreData(true);
-      //window.scroll(0, document.documentElement.scrollHeight - 200);
     }
   };
 
@@ -65,9 +66,9 @@ export default function SearchBar({
           };
           return newItem;
         });
-        setData((prev) => [...prev, ...newData]);
-        setTotalPages(json.total_pages);
-        setTotalResults(json.total_results);
+        dispatch({ type: "ADD_DATA", value: newData });
+        dispatch({ type: "SET_TOTALPAGES", value: json.total_pages });
+        dispatch({ type: "SET_TOTALRESULTS", value: json.total_results });
       });
   };
 
@@ -76,19 +77,17 @@ export default function SearchBar({
       `page: ${page} loadMoreData: ${loadMoreData} totalPages: ${totalPages}`
     );
     if (page == 1 || (page > 1 && !dataLoading && loadMoreData)) {
-      setDataLoading(true);
+      dispatch({ type: "SET_DATALOADING", value: true });
       setTimeout(() => {
-        fetchData(concatenateWords(text));
-        setDataLoading(false);
+        fetchData(concatenateWords(textSearch));
+        dispatch({ type: "SET_DATALOADING", value: false });
         setLoadMoreData(false);
-        if (page < totalPages || totalPages === 0) setPage(page + 1);
-        else {
-          setPage(null);
-          setTotalPages(0);
+        if (page < totalPages || totalPages === 0) {
+          dispatch({ type: "SET_PAGE", value: page + 1 });
+        } else {
+          dispatch({ type: "SET_PAGE", value: null });
+          dispatch({ type: "SET_TOTALPAGES", value: 0 });
         }
-
-        //if (page >= totalPages) setPage(null);
-        //else setPage((page) => page + 1);
       }, 1500);
     }
   }, [page, loadMoreData]);
@@ -102,9 +101,11 @@ export default function SearchBar({
     <div className="search-box">
       <input
         type="text"
-        value={text}
+        value={textSearch}
         placeholder="Escriba la búsqueda..."
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          dispatch({ type: "SET_TEXTSEARCH", value: e.target.value });
+        }}
       />
       <div className="search-btn" disabled={isEmpty} onClick={handleSearchBtn}>
         <FaSearch />
@@ -112,7 +113,10 @@ export default function SearchBar({
       <div
         className="cancel-btn"
         disabled={isEmpty}
-        onClick={() => setText("")}
+        onClick={() => {
+          //dispatch({ type: "SET_TEXTSEARCH", value: "" });
+          dispatch({ type: "RESET_SEARCH" });
+        }}
       >
         <FaTimes />
       </div>
