@@ -23,6 +23,7 @@ import { useAppContext } from "./AppProvider";
 
 import userPhotoDefault from "./assets/user_photo.png";
 
+/*TODO: borrar App.css es seguro? */
 export default function App() {
   const [user, loading, error] = useAuthState(auth);
   const { showComments, dispatch } = useAppContext();

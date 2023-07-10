@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Sono:wght@400;800&display=swap");
 
+/* Estilos generales */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +18,6 @@ body {
     rgba(212, 32, 32, 1) 94%
   ); */
   background-blend-mode: multiply;
-  /*  background-blend-mode: darken; */
 }
 
 .App {
@@ -26,6 +26,7 @@ body {
   height: 100vh;
 }
 
+/* Spinner */
 .spinner {
   position: absolute;
   left: 50%;
@@ -40,6 +41,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1rem;
 }
 
 .form__container {
@@ -49,11 +51,11 @@ body {
   background-color: black;
   padding: 30px;
   width: 500px;
+  border-radius: 13px;
 }
 
 .form__textBox {
   padding: 10px;
-  font-size: 16px;
   margin-bottom: 25px;
   border-radius: 5px;
   width: 100%;
@@ -61,7 +63,6 @@ body {
 
 .form__btn {
   padding: 10px;
-  font-size: 18px;
   margin-bottom: 10px;
   border: none;
   color: white;
@@ -69,6 +70,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 8px;
+  font-size: 1rem;
 }
 
 .form__google {
@@ -89,7 +91,7 @@ body {
 }
 
 .form__error {
-  font-size: 13px;
+  font-size: 0.8rem;
   font-weight: 800;
   color: #ff7b5a;
   text-align: end;
@@ -127,7 +129,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   background-blend-mode: color;
-  max-width: 270px;
+  width: 270px;
   height: 400.1px;
   box-shadow: 10px 10px 10px #111;
   transition: background-color 0.25s linear;
@@ -296,6 +298,16 @@ body {
   color: #222;
 }
 
+@media screen and (max-width: 1024px) {
+  .nav-links {
+    font-size: 1rem;
+  }
+  .navbaritems .logo,
+  .navbaritems .logo-icon {
+    font-size: 1.4rem;
+  }
+}
+
 @media screen and (max-width: 850px) {
   .navbaritems {
     z-index: 99;
@@ -305,9 +317,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.05);
+    /*box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);*/
+    /*backdrop-filter: blur(4px);*/
     border-radius: 13px;
     width: 100%;
     height: auto;
@@ -323,16 +335,19 @@ body {
 
   .nav-menu.active {
     left: 0;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px);
   }
 
   .nav-links {
     display: block;
     widows: 100%;
     padding: 2rem 0;
-    color: #222;
+    color: white;
   }
 
-  .nav-links:hover {
+  .nav-links:hover,
+  .nav-links.active:hover {
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(20px);
   }
@@ -352,6 +367,11 @@ body {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .navbaritems .logo span {
+    display: none;
+  }
+}
 /* Componente SearchBar */
 .search-box {
   position: absolute;
@@ -359,17 +379,21 @@ body {
   left: 50%;
   transform: translate(-50%);
   height: 60px;
-  width: 450px;
+  width: 500px;
 }
 
 .search-box input {
   height: 100%;
   width: 100%;
-  border: none;
+  border: 1px solid #000;
   background: #fff;
   font-size: 18px;
   border-radius: 50px;
   padding: 0 60px 0 50px;
+}
+
+.search-box input[type="text"]:focus {
+  outline: black solid 3px;
 }
 
 .search-box .search-btn {
@@ -495,7 +519,7 @@ body {
 }
 
 .popup__textarea {
-  width: 100%;
+  width: 94%;
   height: 80px;
   resize: none;
   margin-bottom: 10px;
@@ -570,7 +594,7 @@ body {
 .carduser {
   background-color: black;
   color: white;
-  width: 450px;
+  width: 500px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
@@ -602,7 +626,7 @@ body {
 }
 
 .carduser__email {
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
 .carduser__stats {
@@ -619,7 +643,7 @@ body {
 }
 
 .carduser__value {
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
 .carduser__btns {
@@ -637,4 +661,25 @@ body {
   border-radius: 5px;
   cursor: pointer;
   width: 38%;
+}
+
+@media screen and (max-width: 800px) {
+  .popup__box {
+    width: 90vw;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .carduser {
+    width: 90vw;
+  }
+  .search-box {
+    width: 90vw;
+  }
+  .search-box input {
+    font-size: 0.8rem;
+  }
+  .form__container {
+    width: 90vw;
+  }
 }

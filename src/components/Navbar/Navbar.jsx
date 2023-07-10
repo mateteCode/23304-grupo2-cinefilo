@@ -29,7 +29,11 @@ export default function Navbar({ isAuthenticated }) {
             if (item.always || item.loggedIn === isAuthenticated) {
               return (
                 <li key={index}>
-                  <NavLink to={item.url} className={item.cName}>
+                  <NavLink
+                    to={item.url}
+                    className={item.cName}
+                    onClick={handleClick}
+                  >
                     {item.icon}
                     <span>{item.title}</span>
                   </NavLink>

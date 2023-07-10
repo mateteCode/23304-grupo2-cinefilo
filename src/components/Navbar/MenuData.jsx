@@ -5,6 +5,7 @@ import {
   BsFillPersonCheckFill,
   BsFillPersonXFill,
 } from "react-icons/bs";
+/*TODO: Cambiar icono de bloqueadas que sea el mismo que las cards */
 export const MenuData = [
   {
     title: "Buscador",
@@ -52,11 +53,5 @@ export const MenuData = [
     icon: <BsFillPersonXFill />,
     always: false,
     loggedIn: true,
-  },
-  {
-    title: "Acerca",
-    url: "/about",
-    cName: "nav-links-mobile",
-    always: true,
   },
 ];

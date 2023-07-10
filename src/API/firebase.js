@@ -34,6 +34,7 @@ const firebaseConfig = {
   appId: "1:497685829031:web:4171ccc2354c4fcb3a9282",
 };
 
+/*TODO: LLamar esta carpeta services, integrandola con otro archivo para la API de pelis */
 const COLLECTION_COMMENTS = "comments2";
 
 const app = initializeApp(firebaseConfig);

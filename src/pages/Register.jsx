@@ -56,7 +56,7 @@ export default function Register() {
             {...register("password", {
               required: msgRequired,
               validate: {
-                checkLength: (value) => value.length >= 6,
+                checkLength: (value) => value.length >= 8,
                 matchPattern: (value) =>
                   /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
                     value
@@ -71,7 +71,7 @@ export default function Register() {
             {showErrors && errors.password?.type === "required" && msgRequired}
             {showErrors &&
               errors.password?.type === "checkLength" &&
-              "Debe tener mínimo 6 caracteres."}
+              "Debe tener mínimo 8 caracteres."}
             {showErrors &&
               errors.password?.type === "matchPattern" &&
               "Usar minúscula, mayúscula, dígito y carácter especial."}
